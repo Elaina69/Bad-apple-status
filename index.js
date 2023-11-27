@@ -16,10 +16,12 @@ function badApple() {
         const interval = setInterval(() => {
             sc = document.querySelector('.hover-card-status-message')
                 if (sc) {
-                    document.querySelector("#BadApple").hidden = false
-                    document.querySelector("#BadApple-video").currentTime = 0
-                    document.querySelector("#BadApple-video").play()
                     clearInterval(interval)
+                    if (!disable_video) {
+                        document.querySelector("#BadApple").hidden = false
+                        document.querySelector("#BadApple-video").currentTime = 0
+                        document.querySelector("#BadApple-video").play()
+                    }
                     int = setInterval(() => {
                         if (i >= MultiStatus.length - 1) {stop()}
                         else i++
@@ -35,10 +37,12 @@ function stop() {
     console.log("Stopped")
     i=0
     running = false
-    document.querySelector("#BadApple").hidden = true
-    let video = document.querySelector("#BadApple-video")
-    video.currentTime = 0
-    video.pause()
+    if (!disable_video) {
+        document.querySelector("#BadApple").hidden = true
+        let video = document.querySelector("#BadApple-video")
+        video.currentTime = 0
+        video.pause()
+    }
 }
 async function addBadAppleVideo(root) {
     const { Component, jsx, render } = await import('//esm.run/nano-jsx')
@@ -69,11 +73,11 @@ window.addEventListener("load", async ()=> {
 })
 
 window.addEventListener("keydown", async (event)=>{
-    if (event.altKey && event.key=="b") {badApple()}
-    if (event.altKey && event.key=="s") {stop()}
+    if (event.altKey && event.key=="b") badApple()
+    if (event.altKey && event.key=="s") stop()
 })
 
 export async function load() {
     CommandBar.addAction({name: "Start Bad Apple", group: "Bad Apple", perform: () => badApple()})
-    CommandBar.addAction({name: "Stop Bad Apple", group: "Bad Apple", perform: () => {stop()}})
+    CommandBar.addAction({name: "Stop Bad Apple", group: "Bad Apple", perform: () => stop()})
 }
