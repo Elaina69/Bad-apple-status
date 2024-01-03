@@ -1,5 +1,4 @@
 import text from "./src/status.txt?raw"
-import "./src/style.css"
 
 let videoLength = 219
 let i = 0
@@ -49,8 +48,8 @@ async function addBadAppleVideo(root) {
     class LoaderMenu extends Component {
         render() {
             return jsx/*html*/`
-                <div class="modal" id="BadApple" hidden>
-                    <video id="BadApple-video" autoplay src="${path}src/bad_apple.webm"></video>
+                <div class="modal" id="BadApple" hidden style="position: absolute; inset: 0px;">
+                    <video id="BadApple-video" autoplay src="${path}src/bad_apple.webm" style="width: 500px; margin-top: 200px; margin-left: 100px;"></video>
                 </div>
             `
         }
@@ -59,6 +58,14 @@ async function addBadAppleVideo(root) {
 }
 
 window.addEventListener("load", async ()=> {
+    let NStyle = document.createElement('style')
+	NStyle.appendChild(document.createTextNode(/*css*/`
+        lol-social-avatar[ref='iconElement'], .lol-social-identity.ember-view > .details {
+            z-index: 1 !important;
+        }
+    `))
+	document.body.appendChild(NStyle)
+
     if (!disable_video) {
         const manager = () => document.getElementById('lol-uikit-layer-manager-wrapper')
         const root    = document.createElement('div')
